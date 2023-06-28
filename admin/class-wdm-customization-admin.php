@@ -51,10 +51,11 @@ class Wdm_Customization_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		include_once plugin_dir_path( __FILE__ ) . 'partials/wdm-customization-admin-display.php';
 	}
 
 	/**
+	 *
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
@@ -98,6 +99,21 @@ class Wdm_Customization_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wdm-customization-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Adding a menu page
+	 */
+	public function add_plugin_menu_page() {
+		add_menu_page(
+			'WisdmLabs Customization',
+			__( 'WisdmLabs Customization', 'wdm-customization' ),
+			'manage_options',
+			'wdm-customization',
+			'menu_page_callback',
+			'dashicons-admin-generic',
+			25
+		);
 	}
 
 }
