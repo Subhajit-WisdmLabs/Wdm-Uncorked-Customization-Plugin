@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -100,5 +99,23 @@ class Wdm_Customization_Public {
 
 	}
 
-	
+	/**
+	 * Redirect non-logged in user to a specific page
+	 * */
+	public function redirect_non_logged_in_user() {
+		global $post;
+		$page_slug = $post->post_name;
+		$allowed_pages_slug = array( 'cart', 'checkout', 'login', '12-month-plan-save-25', 'signup', 'thank_you' );
+		$redirected_page_id = (int) get_option( 'wdm_redirect_page_non_logged_in_user' );
+		// var_dump( $page_slug );
+
+		if ( 0 === $redirected_page_id ) {
+			return;
+		}
+
+		if ( ! is_user_logged_in() && ! is_page( $redirected_page_id ) && ! in_array( $page_slug, $allowed_pages_slug, true ) ) {
+			wp_safe_redirect( get_permalink( $redirected_page_id ), 302 );
+			exit;
+		}
+	}
 }

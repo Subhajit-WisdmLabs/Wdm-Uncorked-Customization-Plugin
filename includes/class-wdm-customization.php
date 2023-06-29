@@ -173,6 +173,7 @@ class Wdm_Customization {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'redirect_non_logged_in_user' );
 	}
 
 	/**
