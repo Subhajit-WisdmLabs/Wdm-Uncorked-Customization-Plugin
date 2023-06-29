@@ -100,12 +100,5 @@ class Wdm_Customization_Public {
 
 	}
 
-	/**
-	 * Redirect non-logged in user to a specific page*/
-	public function redirect_non_logged_in_user() {
-		if ( ! is_user_logged_in() && ! is_page( 'home-video' ) ) {
-			wp_safe_redirect( 'http://localuncroked.local/', 302 );
-			exit;
-		}
-	}
+	
 }
