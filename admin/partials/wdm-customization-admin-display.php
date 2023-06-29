@@ -21,13 +21,15 @@ function menu_page_callback() {
 		return;
 	}
 	?>
-	<form method="post" action="options.php">
-		<?php
-				settings_fields( 'wdm_redirect_page_non_logged_in_user' );
-				do_settings_sections( 'wdm-customization' );
-				submit_button();
-		?>
-	</form>
+	<div class="wrap">
+		<form method="post" action="options.php">
+			<?php
+					settings_fields( 'wdm_customization_settings' );
+					do_settings_sections( 'wdm_customization' );
+					submit_button();
+			?>
+		</form>
+	</div>
 	<?php
 }
 
@@ -38,9 +40,21 @@ function wdm_redirect_non_logged_in_user_section_callback() {
 }
 
 /**
- * Callback to display the setting field*/
+ * Setting Default value of the option
+ **/
+function wdm_select_redirect_page_default_value() {
+	$page_id = get_option( 'page_on_front' );
+	if ( 0 === $page_id ) {
+		$page_id = get_option( 'page_for_posts' );
+	}
+	return $page_id;
+}
+
+/**
+ * Callback to display the setting field
+ **/
 function wdm_select_redirect_page_callback() {
-	$redirect_page = get_option( 'wdm_redirect_page_non_logged_in_user' );
+	$redirect_page = get_option( 'wdm_redirect_page_non_logged_in_user', wdm_select_redirect_page_default_value() );
 	$redirect_page = (int) $redirect_page;
 	?>
 	<select name="wdm_redirect_page_non_logged_in_user">

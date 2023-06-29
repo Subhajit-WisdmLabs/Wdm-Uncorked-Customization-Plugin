@@ -44,13 +44,13 @@ class Wdm_Customization_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string $plugin_name       The name of this plugin.
-	 * @param      string $version    The version of this plugin.
+	 * @param      string    $plugin_name       The name of this plugin.
+	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
+		$this->version = $version;
 	}
 
 	/**
@@ -109,7 +109,7 @@ class Wdm_Customization_Admin {
 			'WisdmLabs Customization',
 			__( 'WisdmLabs Customization', 'wdm-customization' ),
 			'manage_options',
-			'wdm-customization',
+			'wdm_customization',
 			'menu_page_callback',
 			'dashicons-admin-generic',
 			25
@@ -125,18 +125,18 @@ class Wdm_Customization_Admin {
 			'wdm_redirect_non_logged_in_user', // Section ID.
 			__( 'Redirect Non-LoggedIn User', 'wdm-customization' ), // Section Title.
 			'wdm_redirect_non_logged_in_user_section_callback', // Section Callback.
-			'wdm-customization' // Page Slug of the Settings Page.
+			'wdm_customization' // Page Slug of the Settings Page.
 		);
 
 		add_settings_field(
 			'wdm_select_redirect_page', // Field ID.
 			'Select the page to redirect the non logged in users', // Field Title.
 			'wdm_select_redirect_page_callback', // Callback function to display.
-			'wdm-customization', // Page slug of the settings page.
+			'wdm_customization', // Page slug of the settings page.
 			'wdm_redirect_non_logged_in_user' // Section Id to which the field belongs.
 		);
 
-		register_setting( 'wdm_redirect_page_non_logged_in_user', 'wdm_redirect_page_non_logged_in_user' );
+		register_setting( 'wdm_customization_settings', 'wdm_redirect_page_non_logged_in_user' );
 	}
 
 }
