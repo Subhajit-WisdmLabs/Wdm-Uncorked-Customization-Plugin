@@ -70,5 +70,22 @@ function wdm_select_redirect_page_callback() {
 	</select>
 	<?php
 }
+/**
+ * Add membership roles in menu option
+ *
+ * @param array $roles roles of the "Nav Menu Roles" plugin.
+ * @return array
+ */
+function wdm_get_membership_plans( $roles ) {
+	$memberships      = wc_memberships_get_membership_plans();
+	$membership_roles = array();
+	if ( ! empty( $memberships ) ) {
+		foreach ( $memberships as $membership ) {
+			$key = 'wc_membership_' . $membership->id;
+			$membership_roles[ $key ] = $membership->name;
+		}
+	}
+	return array_merge( $roles, $membership_roles );
+}
+
 ?>
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->

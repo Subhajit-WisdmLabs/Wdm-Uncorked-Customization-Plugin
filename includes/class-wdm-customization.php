@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -158,6 +157,7 @@ class Wdm_Customization {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_plugin_menu_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'add_menu_settings' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'wdm_membership_menus_admin' );
 	}
 
 	/**
@@ -174,6 +174,8 @@ class Wdm_Customization {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'redirect_non_logged_in_user' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_public, 'wdm_membership_menus_public' );
+		add_shortcode( 'wdm_woocommerce_product_checkout', array( $plugin_public, 'product_checkout_link' ) );
 	}
 
 	/**

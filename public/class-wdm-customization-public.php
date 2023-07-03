@@ -104,10 +104,9 @@ class Wdm_Customization_Public {
 	 * */
 	public function redirect_non_logged_in_user() {
 		global $post;
-		$page_slug = $post->post_name;
+		$page_slug          = $post->post_name;
 		$allowed_pages_slug = array( 'cart', 'checkout', 'login', '12-month-plan-save-25', 'signup', 'thank_you' );
 		$redirected_page_id = (int) get_option( 'wdm_redirect_page_non_logged_in_user' );
-		// var_dump( $page_slug );
 
 		if ( 0 === $redirected_page_id ) {
 			return;
@@ -117,5 +116,64 @@ class Wdm_Customization_Public {
 			wp_safe_redirect( get_permalink( $redirected_page_id ), 302 );
 			exit;
 		}
+	}
+
+	/**
+	 * Check "Nav menu roles" plugin is activated and add call the hooks to add WooCommerce membership plans as role
+	 */
+	public function wdm_membership_menus_public() {
+		if ( ! is_plugin_active( 'woocommerce-memberships/woocommerce-memberships.php' ) || ! is_plugin_active( 'nav-menu-roles/nav-menu-roles.php' ) ) {
+			return;
+		}
+		add_filter( 'nav_menu_roles_item_visibility', array( $this, 'wdm_nav_menu_visibility_check' ), 10, 2 );
+	}
+
+	/**
+	 * Get all the membership plans and checked the visibility rules of each nav menu
+	 *
+	 * @param boolean $visible visibilty rule of the nav menu.
+	 * @param array   $item nav menu item.
+	 * @return boolean
+	 */
+	public function wdm_nav_menu_visibility_check( $visible, $item ) {
+
+		if ( ! $visible && isset( $item->roles ) && is_array( $item->roles ) ) {
+			// Get specific WooCommerce membership roles.
+			$memberships = preg_grep( '/^wc_membership_*/', $item->roles );
+			if ( count( $memberships ) > 0 ) {
+				foreach ( $memberships as $membership ) {
+					$visible = $this::wdm_is_user_have_membership( $membership );
+					if ( $visible ) {
+						break;
+					}
+				}
+			}
+		}
+		return $visible;
+	}
+
+	/**
+	 * Check if current user have active membership required for the nav menu
+	 *
+	 * @param array $membership membership rule required to view the current nav menu.
+	 * @return boolean
+	 */
+	public function wdm_is_user_have_membership( $membership = false ) {
+		$current_user_id = get_current_user_id();
+		if ( ! $current_user_id || ! $membership ) {
+			return false;
+		}
+		$membership_id = substr( $membership, 14 ); // Get only the membership id.
+		return wc_memberships_is_user_active_member( $current_user_id, $membership_id );
+	}
+
+	/**
+	 * Shortcode for product link redirected to checkout page
+	 *
+	 * @param array $atts - shortcode attributes.
+	 */
+	public function product_checkout_link( $atts ) {
+		$atts       = shortcode_atts( array( 'product_id' => '0' ), $atts, 'wdm_woocommerce_product_checkout' );
+		$product_id = $atts['product_id'];
 	}
 }

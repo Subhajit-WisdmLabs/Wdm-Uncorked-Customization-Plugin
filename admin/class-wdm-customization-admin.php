@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -44,13 +43,13 @@ class Wdm_Customization_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of this plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 	}
 
 	/**
@@ -137,6 +136,17 @@ class Wdm_Customization_Admin {
 		);
 
 		register_setting( 'wdm_customization_settings', 'wdm_redirect_page_non_logged_in_user' );
+	}
+
+	/**
+	 * Check "Nav menu roles" plugin is activated and add call the hooks to add WooCommerce membership plans as role
+	 */
+	public function wdm_membership_menus_admin() {
+		if ( ! is_plugin_active( 'woocommerce-memberships/woocommerce-memberships.php' ) || ! is_plugin_active( 'nav-menu-roles/nav-menu-roles.php' ) ) {
+			return;
+		}
+
+		add_filter( 'nav_menu_roles', 'wdm_get_membership_plans' );
 	}
 
 }
