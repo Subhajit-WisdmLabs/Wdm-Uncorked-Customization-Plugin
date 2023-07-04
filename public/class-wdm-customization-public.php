@@ -172,8 +172,19 @@ class Wdm_Customization_Public {
 	 *
 	 * @param array $atts - shortcode attributes.
 	 */
-	public function product_checkout_link( $atts ) {
+	public function product_checkout_link( $atts, $content = null ) {
 		$atts       = shortcode_atts( array( 'product_id' => '0' ), $atts, 'wdm_woocommerce_product_checkout' );
 		$product_id = $atts['product_id'];
+		$product    = wc_get_product( $product_id );
+		if ( empty( $product ) || $product === null ) {
+			return $content;
+		}
+		if ( WC()->cart->get_cart_contents_count() > 0 ) {
+			WC()->cart->empty_cart();
+		}
+
+		$site_url_without_protocol = substr( get_site_url(), 7 );
+		$product_checkout_link = $site_url_without_protocol . '/checkout/?add-to-cart=' . $product_id;
+		return $product_checkout_link;
 	}
 }
