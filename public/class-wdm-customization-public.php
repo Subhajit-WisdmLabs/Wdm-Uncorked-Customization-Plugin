@@ -173,11 +173,11 @@ class Wdm_Customization_Public {
 	 * @param array $atts - shortcode attributes.
 	 */
 	public function product_checkout_link( $atts ) {
-		$atts       = shortcode_atts( array( 'product_id' => '0' ), $atts, 'wdm_woocommerce_product_checkout' );
+		$atts       = shortcode_atts( array( 'product_id' => '0' ), $atts, 'wdm_wc_product_checkout' );
 		$product_id = $atts['product_id'];
 		$product    = wc_get_product( $product_id );
 		if ( empty( $product ) ) {
-			return $content;
+			return '#';
 		}
 
 		$product_checkout_link = get_site_url() . '/checkout/?add-to-cart=' . $product_id;
