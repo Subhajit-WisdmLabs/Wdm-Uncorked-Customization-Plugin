@@ -2,3 +2,50 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+/* visibility of watchlist in watchlist tab of authors page*/
+.progression-studios-isotope-animation{opacity:1;}
+/* visibility of comments in comments tab of authors page*/
+h3.progresison-studios-no-author-posts-list {
+	padding:10px 0px;
+	font-size:20px;
+	font-weight:300;
+	color: white;
+}
+/* side by side display of registration form and login form*/
+.woocommerce .col2-set#customer_login {
+	display: inline-flex;
+}
+/* visibility of registration form*/
+.woocommerce .col2-set#customer_login .col-2{
+	display: block !important;
+}
+/* change  the input text color of the input fields of login and registraion forms*/
+body #content-pro .width-container-pro .woocommerce .col2-set#customer_login input[type=text], body #content-pro .width-container-pro .woocommerce .col2-set#customer_login input[type=email],
+body #content-pro .width-container-pro .woocommerce .col2-set#customer_login input[type=password] {
+	color: #000 !important;
+}
+/* changed the color and alignment of table data in all tabs of my acccount page for logged in user*/
+/* #content-pro .woocommerce table.shop_table thead tr th,
+#content-pro .woocommerce table.shop_table tbody tr td {
+	color: #ffffff !important;
+	text-align: center !important;
+} */
+
+/* My Account form padding*/
+body .woocommerce .woocommerce-MyAccount-content {
+   padding: 2% 2% 2% 2% !important;
+}
+
+/*product price in checkout page*/
+.subscription-price {
+	font-weight: bold;
+}
+
+/*my account form margin*/
+@media only screen and (min-width: 768px) {
+   .woocommerce-EditAccountForm {
+      margin-top: 25px;
+      margin-bottom: 25px;
+   }
+}
