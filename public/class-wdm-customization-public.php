@@ -172,19 +172,35 @@ class Wdm_Customization_Public {
 	 *
 	 * @param array $atts - shortcode attributes.
 	 */
-	public function product_checkout_link( $atts, $content = null ) {
+	public function product_checkout_link( $atts ) {
 		$atts       = shortcode_atts( array( 'product_id' => '0' ), $atts, 'wdm_woocommerce_product_checkout' );
 		$product_id = $atts['product_id'];
 		$product    = wc_get_product( $product_id );
-		if ( empty( $product ) || $product === null ) {
+		if ( empty( $product ) ) {
 			return $content;
 		}
-		if ( WC()->cart->get_cart_contents_count() > 0 ) {
-			WC()->cart->empty_cart();
-		}
 
-		$site_url_without_protocol = substr( get_site_url(), 7 );
-		$product_checkout_link = $site_url_without_protocol . '/checkout/?add-to-cart=' . $product_id;
+		$product_checkout_link = get_site_url() . '/checkout/?add-to-cart=' . $product_id;
 		return $product_checkout_link;
 	}
+
+	/**
+	 * Remove other items from the cart when new item is added and set the quantity to one.
+	 */
+	public function set_cart_item_quantity( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
+		$cart = WC()->cart;
+		$cart_items = $cart->get_cart();
+		// If cart has more than one product -> remove the first item (which is eventually item added in the past).
+		if ( count( $cart_items ) > 1 ) {
+			$first_item_key = array_key_first( $cart_items );
+			$cart->remove_cart_item( $first_item_key );
+		}
+
+		// If cart has more than one quantity of one product -> reduced it to one.
+		if ( $cart->get_cart_contents_count() > 1 ) {
+			$cart_item_key = array_key_first( $cart->get_cart() );
+			$cart->set_quantity( $cart_item_key, 1 );
+		}
+	}
+
 }
