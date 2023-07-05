@@ -2,8 +2,3 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-
- /* CSS to fixed the text colour in the input field */
- .woocommerce-Input--text {
-    color: #000000;
- }

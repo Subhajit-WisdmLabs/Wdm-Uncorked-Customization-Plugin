@@ -177,6 +177,7 @@ class Wdm_Customization {
 		$this->loader->add_action( 'plugins_loaded', $plugin_public, 'wdm_membership_menus_public' );
 		add_shortcode( 'wdm_wc_product_checkout', array( $plugin_public, 'product_checkout_link' ) );
 		$this->loader->add_action( 'woocommerce_add_to_cart', $plugin_public, 'set_cart_item_quantity', 10, 6 );
+		$this->loader->add_filter( 'wc_add_to_cart_message_html', $plugin_public, 'remove_added_to_cart_message', 10, 3 );
 	}
 
 	/**

@@ -203,4 +203,11 @@ class Wdm_Customization_Public {
 		}
 	}
 
+	/**
+	 * Remove Added to cart message.
+	 */
+	public function remove_added_to_cart_message( $message, $products, $show_qty ) {
+		return false;
+	}
+
 }
