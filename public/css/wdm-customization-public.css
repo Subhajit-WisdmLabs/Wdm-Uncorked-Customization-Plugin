@@ -26,11 +26,11 @@ body #content-pro .width-container-pro .woocommerce .col2-set#customer_login inp
 	color: #000 !important;
 }
 /* changed the color and alignment of table data in all tabs of my acccount page for logged in user*/
-/* #content-pro .woocommerce table.shop_table thead tr th,
-#content-pro .woocommerce table.shop_table tbody tr td {
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr th,
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr td {
 	color: #ffffff !important;
 	text-align: center !important;
-} */
+}
 
 /* My Account form padding*/
 body .woocommerce .woocommerce-MyAccount-content {
@@ -39,7 +39,27 @@ body .woocommerce .woocommerce-MyAccount-content {
 
 /*product price in checkout page*/
 .subscription-price {
+	color: #000000;
 	font-weight: bold;
+	display: flex;
+}
+
+/*product price in checkout page*/
+.woocommerce-checkout-review-order-table .woocommerce-Price-amount {
+	display: flex;
+	gap: 5px;
+}
+
+/*Checkout form text*/ 
+#billing_first_name, #billing_last_name, #billing_country, #billing_address_1, #billing_city, #billing_state, #billing_postcode, #billing_email{
+	color: #000000 !important;
+}
+
+/*Disply the fields in order details table of thank you page*/
+body #content-pro .woocommerce .woocommerce-order table.shop_table tr th,
+body #content-pro .woocommerce .woocommerce-order table.shop_table tr td {
+	color: #ffffff !important;
+	text-align: center !important;
 }
 
 /*my account form margin*/
