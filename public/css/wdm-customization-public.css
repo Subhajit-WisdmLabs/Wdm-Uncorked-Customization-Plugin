@@ -32,6 +32,21 @@ body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  
 	text-align: center !important;
 }
 
+/*View membership tab in my account page for logged in user*/
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr.membership td.membership-actions a.button.view-subscription,
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr.membership td.membership-actions a.button.view,
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr.membership td.membership-actions a.button.cancel{
+	width: 90%;
+	height: 100%;
+	white-space: pre-wrap;
+	padding: 16px;
+}
+
+/*View membership tab in my account page for logged in user*/
+body #content-pro .woocommerce .woocommerce-MyAccount-content table.shop_table  tr.membership td.membership-actions a.button.view {
+	margin: 5px;
+}
+
 /* My Account form padding*/
 body .woocommerce .woocommerce-MyAccount-content {
    padding: 2% 2% 2% 2% !important;
@@ -60,6 +75,20 @@ body #content-pro .woocommerce .woocommerce-order table.shop_table tr th,
 body #content-pro .woocommerce .woocommerce-order table.shop_table tr td {
 	color: #ffffff !important;
 	text-align: center !important;
+}
+
+
+/*Login Form remember me checkbox alignment*/
+body #content-pro .width-container-pro form.woocommerce-form-login p.form-row:nth-child(3){
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+/*Product counter in product single page*/
+.entry-summary form.cart .quantity input.qty{
+	color: #000000;
 }
 
 /*my account form margin*/
