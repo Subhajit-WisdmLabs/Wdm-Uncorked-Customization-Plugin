@@ -217,7 +217,7 @@ class Wdm_Customization_Public {
 	 *
 	 * @param array  $message_args The argument of the content that being restricted.
 	 */
-	public function checkout_link_in_page_restriction_message( $message_html, $message_args ) {
+	public function checkout_link_in_page_restriction_message2( $message_html, $message_args ) {
 		$siteurl_array = explode( '/', get_site_url() );
 		$siteurl_regex = '/';
 		foreach ( $siteurl_array as $part ) {
@@ -241,6 +241,32 @@ class Wdm_Customization_Public {
 			}
 		}
 		return $message_html;
+	}
+
+	/**
+	 * Filter the page restrition message to change the product link with add to cart link
+	 *
+	 * @param string $products_merge_tag The html content of the message.
+	 * @param array  $products The argument of the content that being restricted.
+	 * @param string $message the current message where {products} is found.
+	 * @param array  $args optional message arguments.
+	 */
+	public function checkout_link_in_page_restriction_message( $products_merge_tag, $products, $message, $args ) {
+		$siteurl_array = explode( '/', get_site_url() );
+		$siteurl_regex = '/';
+		foreach ( $siteurl_array as $part ) {
+			$siteurl_regex .= $part . '\/';
+		}
+		$siteurl_regex         .= 'product\/[^"]*/';
+		$product_urls           = array();
+		$product_link           = preg_match_all( $siteurl_regex, $products_merge_tag, $product_urls );
+		$length_of_general_link = strlen( get_site_url() . '/product/' );
+		$length                 = count( $product_urls );
+		for ( $cnt = 0; $cnt < $length; $cnt++ ) {
+			$checkout_link      = get_site_url() . '/checkout/?add-to-cart=' . $products[ $cnt ] . '&quantity=1';
+			$products_merge_tag = str_replace( $product_urls[ $cnt ], $checkout_link, $products_merge_tag );
+		}
+		return $products_merge_tag;
 	}
 
 }
