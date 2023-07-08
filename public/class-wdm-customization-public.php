@@ -188,7 +188,7 @@ class Wdm_Customization_Public {
 	 * Remove other items from the cart when new item is added and set the quantity to one.
 	 */
 	public function set_cart_item_quantity( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
-		$cart = WC()->cart;
+		$cart       = WC()->cart;
 		$cart_items = $cart->get_cart();
 		// If cart has more than one product -> remove the first item (which is eventually item added in the past).
 		if ( count( $cart_items ) > 1 ) {
@@ -208,6 +208,39 @@ class Wdm_Customization_Public {
 	 */
 	public function remove_added_to_cart_message( $message, $products, $show_qty ) {
 		return false;
+	}
+
+	/**
+	 * Filter the page restrition message to change the product link with add to cart link
+	 *
+	 * @param string $message_html The html content of the message.
+	 *
+	 * @param array  $message_args The argument of the content that being restricted.
+	 */
+	public function checkout_link_in_page_restriction_message( $message_html, $message_args ) {
+		$siteurl_array = explode( '/', get_site_url() );
+		$siteurl_regex = '/';
+		foreach ( $siteurl_array as $part ) {
+			$siteurl_regex .= $part . '\/';
+		}
+		$siteurl_regex         .= 'product\/[^"]*/';
+		$product_urls           = array();
+		$product_link           = preg_match_all( $siteurl_regex, $message_html, $product_urls );
+		$length_of_general_link = strlen( get_site_url() . '/product/' );
+		foreach ( $product_urls[0] as $url ) {
+			$product_name = substr( $url, $length_of_general_link, -1 );
+			$args         = array(
+				'fields'    => 'ids',
+				'post_type' => 'product',
+				'name'      => $product_name,
+			);
+			$query        = get_posts( $args );
+			if ( 1 === count( $query ) ) {
+				$checkout_link = get_site_url() . '/checkout/?add-to-cart=' . $query[0] . '&quantity=1';
+				$message_html  = str_replace( $url, $checkout_link, $message_html );
+			}
+		}
+		return $message_html;
 	}
 
 }
