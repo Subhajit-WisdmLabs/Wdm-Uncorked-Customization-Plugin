@@ -105,7 +105,7 @@ class Wdm_Customization_Public {
 	public function redirect_non_logged_in_user() {
 		global $post;
 		$page_slug          = $post->post_name;
-		$allowed_pages_slug = array( 'cart', 'checkout', 'login', '12-month-plan-save-25', 'signup', 'thank_you' );
+		$allowed_pages_slug = array( 'cart', 'checkout', 'my-account', '12-month-plan-save-25', 'signup', 'thank_you' );
 		$redirected_page_id = (int) get_option( 'wdm_redirect_page_non_logged_in_user' );
 
 		if ( 0 === $redirected_page_id ) {
@@ -198,8 +198,8 @@ class Wdm_Customization_Public {
 
 		// If cart has more than one quantity of one product -> reduced it to one.
 		if ( $cart->get_cart_contents_count() > 1 ) {
-			$cart_item_key = array_key_first( $cart->get_cart() );
-			$cart->set_quantity( $cart_item_key, 1 );
+			$cart_items_key = array_key_first( $cart->get_cart() );
+			$cart->set_quantity( $cart_items_key, 1 );
 		}
 	}
 
@@ -269,4 +269,35 @@ class Wdm_Customization_Public {
 		return $products_merge_tag;
 	}
 
+	/**
+	 * Profile pic upload option in my account page
+	 */
+	public function add_profile_pic_upload_option_in_my_profile_tab() {
+		global $wp;
+		$current_url         = home_url( add_query_arg( array(), $wp->request ) );
+		$my_account_page_url = wc_get_page_permalink( 'myaccount', false );
+
+		$profile_fields_area_endpoint = get_option( 'woocommerce_myaccount_profile_fields_area_endpoint', false ); // my profile endpoint url.
+
+		if ( ! is_plugin_active( 'woocommerce-memberships/woocommerce-memberships.php' ) || ! is_plugin_active( 'one-user-avatar/one-user-avatar.php' ) ) {
+			return;
+		}
+		if ( ! $my_account_page_url || ! $profile_fields_area_endpoint ) {
+			return;
+		}
+
+		$my_profile_url = $my_account_page_url . $profile_fields_area_endpoint;
+		if ( $current_url === $my_profile_url ) {
+			add_filter( 'the_content', array( $this, 'filter_the_content_to_add_profile_pic_upload_shortcode' ), 10, 1 );
+		}
+	}
+
+	/**
+	 * Placed the avatar upload shortcode om my account page.
+	 *
+	 * @param string $content content of the page.
+	 */
+	public function filter_the_content_to_add_profile_pic_upload_shortcode( $content ) {
+		return $content . do_shortcode( '[avatar_upload]' );
+	}
 }

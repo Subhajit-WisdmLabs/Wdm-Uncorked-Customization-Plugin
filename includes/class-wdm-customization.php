@@ -179,6 +179,7 @@ class Wdm_Customization {
 		$this->loader->add_action( 'woocommerce_add_to_cart', $plugin_public, 'set_cart_item_quantity', 10, 6 );
 		$this->loader->add_filter( 'wc_add_to_cart_message_html', $plugin_public, 'remove_added_to_cart_message', 10, 3 );
 		$this->loader->add_filter( 'wc_memberships_message_products_merge_tag_replacement', $plugin_public, 'checkout_link_in_page_restriction_message', 10, 4 );
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'add_profile_pic_upload_option_in_my_profile_tab' );
 	}
 
 	/**
